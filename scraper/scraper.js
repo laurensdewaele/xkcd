@@ -132,6 +132,16 @@ var __generator =
       return { value: op[0] ? op[1] : void 0, done: true };
     }
   };
+var __spreadArrays =
+  (this && this.__spreadArrays) ||
+  function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++)
+      s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+      for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+        r[k] = a[j];
+    return r;
+  };
 exports.__esModule = true;
 var fs = require("fs");
 var api_1 = require("./api");
@@ -198,7 +208,7 @@ var fetchMissingComicDTOs = function (savedComicNos, latestComicNo) {
               failedComicFetchNos.toString()
             );
             console.log(
-              "Success percentage: " +
+              "Failed percentage: " +
                 (failedComicFetchNos.length / comicsToFetch) * 100 +
                 "%"
             );
@@ -240,9 +250,9 @@ var scrape = function () {
       latestComicDTO,
       e_1,
       savedComicNos,
-      latestComicNo,
       missingComicDTOs,
-      missingComics;
+      missingComics,
+      latestComic;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
@@ -264,17 +274,20 @@ var scrape = function () {
           savedComicNos = comics.map(function (comic) {
             return comic.no;
           });
-          latestComicNo = latestComicDTO.num;
           return [
             4 /*yield*/,
-            fetchMissingComicDTOs(savedComicNos, latestComicNo),
+            fetchMissingComicDTOs(savedComicNos, latestComicDTO.num),
           ];
         case 5:
           missingComicDTOs = _a.sent();
           missingComics = missingComicDTOs.map(function (comicDTO) {
             return mapper_1.mapComicDTOtoModel(comicDTO);
           });
-          comics.push.apply(comics, missingComics);
+          latestComic = mapper_1.mapComicDTOtoModel(latestComicDTO);
+          comics.push.apply(
+            comics,
+            __spreadArrays(missingComics, [latestComic])
+          );
           comics.sort(function (a, b) {
             return a.no - b.no;
           });

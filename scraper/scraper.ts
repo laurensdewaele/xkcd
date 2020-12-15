@@ -102,15 +102,15 @@ const scrape = async (): Promise<void> => {
   }
 
   const savedComicNos: Array<number> = comics.map((comic) => comic.no);
-  const latestComicNo = latestComicDTO.num;
   const missingComicDTOs = await fetchMissingComicDTOs(
     savedComicNos,
-    latestComicNo
+    latestComicDTO.num
   );
   const missingComics = missingComicDTOs.map((comicDTO) =>
     mapComicDTOtoModel(comicDTO)
   );
-  comics.push(...missingComics);
+  const latestComic = mapComicDTOtoModel(latestComicDTO);
+  comics.push(...missingComics, latestComic);
   comics.sort((a, b) => a.no - b.no);
   saveComicsToJSON(comics);
 };

@@ -134,15 +134,16 @@ var __generator =
   };
 exports.__esModule = true;
 exports.api = void 0;
-var axios_1 = require("axios");
+var http_service_1 = require("./http.service");
+var BASE_URL = "http://xkcd.com";
 var URLS = {
-  latestComic: "http://xkcd.com/info.0.json",
+  latestComic: BASE_URL + "/info.0.json",
   specificComic: function (no) {
-    return "http://xkcd.com/" + no + "/info.0.json";
+    return BASE_URL + "/" + no + "/info.0.json";
   },
 };
 var throwFetchError = function () {
-  throw new Error("Could not fetch the latest comic.");
+  throw new Error("Could not fetch");
 };
 var getLatestComicDTO = function () {
   return __awaiter(void 0, void 0, void 0, function () {
@@ -150,7 +151,10 @@ var getLatestComicDTO = function () {
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
-          return [4 /*yield*/, axios_1["default"].get(URLS.latestComic)];
+          return [
+            4 /*yield*/,
+            http_service_1.httpService.get(URLS.latestComic),
+          ];
         case 1:
           comicDTO = _a.sent().data;
           if (!comicDTO) throwFetchError();
@@ -165,7 +169,10 @@ var getSpecificComicDTO = function (no) {
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
-          return [4 /*yield*/, axios_1["default"].get(URLS.specificComic(no))];
+          return [
+            4 /*yield*/,
+            http_service_1.httpService.get(URLS.specificComic(no)),
+          ];
         case 1:
           comicDTO = _a.sent().data;
           if (!comicDTO) throwFetchError();

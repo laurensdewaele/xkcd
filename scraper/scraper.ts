@@ -1,63 +1,118 @@
 import * as fs from "fs";
 
-import { api, ComicDTO } from "./api";
+import { api } from "./api";
 import { Comic } from "../data/comic.model";
+import { ComicDTO } from "./dto";
+import { COMICS_JSON_PATH, UNAVAILABLE_COMIC_NOS } from "./constants";
+import { mapComicDTOtoModel } from "./mapper";
 
 const fetchMissingComicDTOs = async (
-  latestSavedComicNo: number,
+  savedComicNos: Array<number>,
   latestComicNo: number
 ): Promise<Array<ComicDTO>> => {
-  const missingComicPromises: Array<Promise<ComicDTO>> = [];
+  const comicsToFetch =
+    latestComicNo - savedComicNos.length - UNAVAILABLE_COMIC_NOS.length;
+  const missingComicDTOs = [];
+  const failedComicFetchNos = [];
+  const promises = [];
 
-  let comicNoToFetch = latestComicNo;
+  console.log(`fetching ${comicsToFetch} comics...`);
 
-  // TODO: Re-instate, for now just work with one call.
-  missingComicPromises.push(api.getSpecificComicDTO(comicNoToFetch));
-  // do {
-  //   missingComicsPromises.push(api.getSpecificComicDTO(comicNoToFetch));
-  //   comicNoToFetch--;
-  // } while (comicNoToFetch != latestSavedComicNo);
+  for (
+    let comicNoToFetch = 1;
+    comicNoToFetch < latestComicNo;
+    comicNoToFetch++
+  ) {
+    if (
+      !savedComicNos.includes(comicNoToFetch) &&
+      !UNAVAILABLE_COMIC_NOS.includes(comicNoToFetch)
+    ) {
+      // In case a single http call fails, we still want to save that data.
+      // Therefore we're not using Promise.all
+      const promise = new Promise<void>((resolve) => {
+        api
+          .getSpecificComicDTO(comicNoToFetch)
+          .then((comicDTO) => {
+            missingComicDTOs.push(comicDTO);
+            resolve();
+          })
+          .catch((e) => {
+            failedComicFetchNos.push(comicNoToFetch);
+            console.log(
+              `Could not fetch comic no ${comicNoToFetch}`,
+              e.message
+            );
+            resolve();
+          });
+      });
+      promises.push(promise);
+    }
+  }
 
-  const comicDTOs: Array<ComicDTO> = await Promise.all(missingComicPromises);
-  return comicDTOs;
+  await Promise.all(promises);
+  if (failedComicFetchNos.length > 0) {
+    console.log("Failed comics to fetch:", failedComicFetchNos.toString());
+    console.log(
+      `Failed percentage: ${
+        (failedComicFetchNos.length / comicsToFetch) * 100
+      }%`
+    );
+    // TODO: Implement retry
+  }
+  return missingComicDTOs;
 };
 
-const scrape = async (): Promise<void> => {
+const readComicsJSON = (): Array<Comic> => {
   let comics: Array<Comic> = [];
   try {
     comics = JSON.parse(
-      fs.readFileSync("../data/comics.json", {
+      fs.readFileSync(COMICS_JSON_PATH, {
         encoding: "utf8",
       })
     );
   } catch (e) {
+    console.log("Error in parsing comics.json, fetching all comics...");
+  }
+  return comics;
+};
+
+const saveComicsToJSON = (comics: Array<Comic>): void => {
+  try {
+    fs.writeFileSync(COMICS_JSON_PATH, JSON.stringify(comics), {
+      encoding: "utf8",
+    });
+  } catch (e) {
     console.log(
-      "Error in parsing the comics.json file, fetching all comics..."
+      "There was an error in writing the new comics to the JSON file",
+      e
     );
   }
+};
 
-  let latestComicDTO: ComicDTO;
+const scrape = async (): Promise<void> => {
+  const comics = readComicsJSON();
+
+  let latestComicDTO;
   try {
     latestComicDTO = await api.getLatestComicDTO();
-    console.log(latestComicDTO);
   } catch (e) {
-    console.log("Error in catching the latest comic");
+    // TODO: Implement retry
+    console.log("Error in fetching the latest comic, exiting...");
+    process.exit(1);
   }
-  if (!latestComicDTO) return;
 
-  const latestSavedComicNo = comics[comics.length - 1]?.no || 0;
+  const savedComicNos: Array<number> = comics.map((comic) => comic.no);
   const latestComicNo = latestComicDTO.num;
-
-  if (latestSavedComicNo < latestComicNo) {
-    console.log("Fetching missing comics...");
-    const missingComicDTOs = await fetchMissingComicDTOs(
-      latestSavedComicNo,
-      latestComicNo
-    );
-    console.log(missingComicDTOs);
-  } else {
-    console.log("There's no new comic available.");
-  }
+  const missingComicDTOs = await fetchMissingComicDTOs(
+    savedComicNos,
+    latestComicNo
+  );
+  const missingComics = missingComicDTOs.map((comicDTO) =>
+    mapComicDTOtoModel(comicDTO)
+  );
+  comics.push(...missingComics);
+  comics.sort((a, b) => a.no - b.no);
+  saveComicsToJSON(comics);
 };
 
 scrape();

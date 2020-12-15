@@ -4,7 +4,7 @@
   "description": "Scraper for xkcd. Will bundle all the comics together in a giant JSON",
   "main": "scraper.ts",
   "scripts": {
-.    "start": "tsc scraper.ts && node scraper.js"
+    "start": "tsc scraper.ts && node scraper.js"
   },
   "author": "Laurens Dewaele",
   "license": "WTFPL",

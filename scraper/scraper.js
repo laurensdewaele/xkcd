@@ -135,82 +135,150 @@ var __generator =
 exports.__esModule = true;
 var fs = require("fs");
 var api_1 = require("./api");
-var fetchMissingComicDTOs = function (latestSavedComicNo, latestComicNo) {
+var constants_1 = require("./constants");
+var mapper_1 = require("./mapper");
+var fetchMissingComicDTOs = function (savedComicNos, latestComicNo) {
   return __awaiter(void 0, void 0, void 0, function () {
-    var missingComicPromises, comicNoToFetch, comicDTOs;
+    var comicsToFetch,
+      missingComicDTOs,
+      failedComicFetchNos,
+      promises,
+      _loop_1,
+      comicNoToFetch;
     return __generator(this, function (_a) {
       switch (_a.label) {
         case 0:
-          missingComicPromises = [];
-          comicNoToFetch = latestComicNo;
-          missingComicPromises.push(
-            api_1.api.getSpecificComicDTO(comicNoToFetch)
-          );
-          return [4 /*yield*/, Promise.all(missingComicPromises)];
+          comicsToFetch =
+            latestComicNo -
+            savedComicNos.length -
+            constants_1.UNAVAILABLE_COMIC_NOS.length;
+          missingComicDTOs = [];
+          failedComicFetchNos = [];
+          promises = [];
+          console.log("fetching " + comicsToFetch + " comics...");
+          _loop_1 = function (comicNoToFetch) {
+            if (
+              !savedComicNos.includes(comicNoToFetch) &&
+              !constants_1.UNAVAILABLE_COMIC_NOS.includes(comicNoToFetch)
+            ) {
+              // In case a single http call fails, we still want to save that data.
+              // Therefore we're not using Promise.all
+              var promise = new Promise(function (resolve) {
+                api_1.api
+                  .getSpecificComicDTO(comicNoToFetch)
+                  .then(function (comicDTO) {
+                    missingComicDTOs.push(comicDTO);
+                    resolve();
+                  })
+                  ["catch"](function (e) {
+                    failedComicFetchNos.push(comicNoToFetch);
+                    console.log(
+                      "Could not fetch comic no " + comicNoToFetch,
+                      e.message
+                    );
+                    resolve();
+                  });
+              });
+              promises.push(promise);
+            }
+          };
+          for (
+            comicNoToFetch = 1;
+            comicNoToFetch < latestComicNo;
+            comicNoToFetch++
+          ) {
+            _loop_1(comicNoToFetch);
+          }
+          return [4 /*yield*/, Promise.all(promises)];
         case 1:
-          comicDTOs = _a.sent();
-          return [2 /*return*/, comicDTOs];
+          _a.sent();
+          if (failedComicFetchNos.length > 0) {
+            console.log(
+              "Failed comics to fetch:",
+              failedComicFetchNos.toString()
+            );
+            console.log(
+              "Success percentage: " +
+                (failedComicFetchNos.length / comicsToFetch) * 100 +
+                "%"
+            );
+            // TODO: Implement retry
+          }
+          return [2 /*return*/, missingComicDTOs];
       }
     });
   });
+};
+var readComicsJSON = function () {
+  var comics = [];
+  try {
+    comics = JSON.parse(
+      fs.readFileSync(constants_1.COMICS_JSON_PATH, {
+        encoding: "utf8",
+      })
+    );
+  } catch (e) {
+    console.log("Error in parsing comics.json, fetching all comics...");
+  }
+  return comics;
+};
+var saveComicsToJSON = function (comics) {
+  try {
+    fs.writeFileSync(constants_1.COMICS_JSON_PATH, JSON.stringify(comics), {
+      encoding: "utf8",
+    });
+  } catch (e) {
+    console.log(
+      "There was an error in writing the new comics to the JSON file",
+      e
+    );
+  }
 };
 var scrape = function () {
   return __awaiter(void 0, void 0, void 0, function () {
     var comics,
       latestComicDTO,
       e_1,
-      latestSavedComicNo,
+      savedComicNos,
       latestComicNo,
-      missingComicDTOs;
-    var _a;
-    return __generator(this, function (_b) {
-      switch (_b.label) {
+      missingComicDTOs,
+      missingComics;
+    return __generator(this, function (_a) {
+      switch (_a.label) {
         case 0:
-          comics = [];
-          try {
-            comics = JSON.parse(
-              fs.readFileSync("../data/comics.json", {
-                encoding: "utf8",
-              })
-            );
-          } catch (e) {
-            console.log(
-              "Error in parsing the comics.json file, fetching all comics..."
-            );
-          }
-          _b.label = 1;
+          comics = readComicsJSON();
+          _a.label = 1;
         case 1:
-          _b.trys.push([1, 3, , 4]);
+          _a.trys.push([1, 3, , 4]);
           return [4 /*yield*/, api_1.api.getLatestComicDTO()];
         case 2:
-          latestComicDTO = _b.sent();
-          console.log(latestComicDTO);
+          latestComicDTO = _a.sent();
           return [3 /*break*/, 4];
         case 3:
-          e_1 = _b.sent();
-          console.log("Error in catching the latest comic");
+          e_1 = _a.sent();
+          // TODO: Implement retry
+          console.log("Error in fetching the latest comic, exiting...");
+          process.exit(1);
           return [3 /*break*/, 4];
         case 4:
-          if (!latestComicDTO) return [2 /*return*/];
-          latestSavedComicNo =
-            ((_a = comics[comics.length - 1]) === null || _a === void 0
-              ? void 0
-              : _a.no) || 0;
+          savedComicNos = comics.map(function (comic) {
+            return comic.no;
+          });
           latestComicNo = latestComicDTO.num;
-          if (!(latestSavedComicNo < latestComicNo)) return [3 /*break*/, 6];
-          console.log("Fetching missing comics...");
           return [
             4 /*yield*/,
-            fetchMissingComicDTOs(latestSavedComicNo, latestComicNo),
+            fetchMissingComicDTOs(savedComicNos, latestComicNo),
           ];
         case 5:
-          missingComicDTOs = _b.sent();
-          console.log(missingComicDTOs);
-          return [3 /*break*/, 7];
-        case 6:
-          console.log("There's no new comic available.");
-          _b.label = 7;
-        case 7:
+          missingComicDTOs = _a.sent();
+          missingComics = missingComicDTOs.map(function (comicDTO) {
+            return mapper_1.mapComicDTOtoModel(comicDTO);
+          });
+          comics.push.apply(comics, missingComics);
+          comics.sort(function (a, b) {
+            return a.no - b.no;
+          });
+          saveComicsToJSON(comics);
           return [2 /*return*/];
       }
     });

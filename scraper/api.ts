@@ -1,36 +1,26 @@
-import axios from "axios";
+import { ComicDTO } from "./dto";
+import { httpService } from "./http.service";
 
-export interface ComicDTO {
-  month: string;
-  num: number;
-  link: string;
-  year: string;
-  news: string;
-  safe_title: string;
-  transcript: string;
-  alt: string;
-  img: string;
-  title: string;
-  day: string;
-}
-
+const BASE_URL = "http://xkcd.com";
 const URLS = {
-  latestComic: "http://xkcd.com/info.0.json",
-  specificComic: (no: number): string => `http://xkcd.com/${no}/info.0.json`,
+  latestComic: BASE_URL + "/info.0.json",
+  specificComic: (no: number): string => `${BASE_URL}/${no}/info.0.json`,
 };
 
-const throwFetchError = () => {
-  throw new Error("Could not fetch the latest comic.");
+const throwFetchError = (): void => {
+  throw new Error("Could not fetch");
 };
 
 const getLatestComicDTO = async (): Promise<ComicDTO> => {
-  const { data: comicDTO } = await axios.get<ComicDTO>(URLS.latestComic);
+  const { data: comicDTO } = await httpService.get<ComicDTO>(URLS.latestComic);
   if (!comicDTO) throwFetchError();
   return comicDTO;
 };
 
 const getSpecificComicDTO = async (no: number): Promise<ComicDTO> => {
-  const { data: comicDTO } = await axios.get<ComicDTO>(URLS.specificComic(no));
+  const { data: comicDTO } = await httpService.get<ComicDTO>(
+    URLS.specificComic(no)
+  );
   if (!comicDTO) throwFetchError();
   return comicDTO;
 };

@@ -1,7 +1,7 @@
 # Problem
 
 I need every comic and all the data.
-The api is not ideal. 
+The api is not ideal.
 It only gives me the current comic and then i need to manually specify
 which comic I want.
 

@@ -1,35 +1,41 @@
 import axios from "axios";
 
 export interface ComicDTO {
-    month: string;
-    num: number;
-    link: string;
-    year: string;
-    news: string;
-    safe_title: string;
-    transcript: string;
-    alt: string;
-    img: string;
-    title: string;
-    day: string;
+  month: string;
+  num: number;
+  link: string;
+  year: string;
+  news: string;
+  safe_title: string;
+  transcript: string;
+  alt: string;
+  img: string;
+  title: string;
+  day: string;
 }
 
 const URLS = {
-    currentComic: 'http://xkcd.com/info.0.json',
-    specificComic: (no: number): string => `http://xkcd.com/{no}/info.0.json`,
-}
+  latestComic: "http://xkcd.com/info.0.json",
+  specificComic: (no: number): string => `http://xkcd.com/${no}/info.0.json`,
+};
 
-const getCurrentComic = async(): Promise<ComicDTO> => {
-    const { data: comic } = await axios.get<ComicDTO>(URLS.currentComic);
-    return comic;
-}
+const throwFetchError = () => {
+  throw new Error("Could not fetch the latest comic.");
+};
 
-const getSpecificComic = async(no: number): Promise<ComicDTO> => {
-    const { data: comic } = await axios.get<ComicDTO>(URLS.specificComic(no));
-    return comic;
-}
+const getLatestComicDTO = async (): Promise<ComicDTO> => {
+  const { data: comicDTO } = await axios.get<ComicDTO>(URLS.latestComic);
+  if (!comicDTO) throwFetchError();
+  return comicDTO;
+};
+
+const getSpecificComicDTO = async (no: number): Promise<ComicDTO> => {
+  const { data: comicDTO } = await axios.get<ComicDTO>(URLS.specificComic(no));
+  if (!comicDTO) throwFetchError();
+  return comicDTO;
+};
 
 export const api = {
-    getCurrentComic,
-    getSpecificComic
-}
+  getLatestComicDTO,
+  getSpecificComicDTO,
+};

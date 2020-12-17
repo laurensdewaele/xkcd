@@ -38,9 +38,9 @@ const onload = () => {
     }
   };
 
+  handler();
+
   if (window.addEventListener) {
-    addEventListener("DOMContentLoaded", handler, false);
-    addEventListener("load", handler, false);
     addEventListener("scroll", handler, false);
   }
 };

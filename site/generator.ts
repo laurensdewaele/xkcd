@@ -27,17 +27,19 @@ const generateHTML = (images: string): string => {
 const generateImages = (): string => {
   const comics = readJSON();
   let str = "";
-  Object.values(comics).sort((a, b) => b.no - a.no).forEach((comic) => {
-    str += `<div 
+  Object.values(comics)
+    .sort((a, b) => b.no - a.no)
+    .forEach((comic) => {
+      str += `<div 
                 id="${comic.no}" 
                 class="placeholder" 
                 style="width: 280px; height: ${comic.imgHeight}px">
             </div>`;
-  })
+    });
   return str;
 };
 
-export const generate = (): void => {
+export const generateSite = (): void => {
   const html = generateHTML(generateImages());
   fs.writeFileSync(__dirname + "/static/index.html", html);
 };

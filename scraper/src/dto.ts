@@ -1,4 +1,4 @@
-export interface Comic {
+export interface ComicDTO {
   month: string;
   num: number;
   link: string;

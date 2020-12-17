@@ -1,9 +1,10 @@
 import * as fs from "fs";
+import * as sharp from "sharp";
 
 import { api } from "./api";
-import { Comic } from "./dto";
+import {Comic} from "../../shared/comic";
 
-const COMICS_JSON_PATH = __dirname + "/../data/comics.json";
+const COMICS_JSON_PATH = __dirname + "/../../shared/comics.json";
 
 interface Comics {
   [num: number]: Comic;
@@ -23,12 +24,6 @@ const writeJSON = (comics: Comics): void => {
   });
 };
 
-const writeImage = (imageBuffer: Buffer, imgUrl: string, comicNum: number): void => {
-  const extension = imgUrl.match(/\.[0-9a-z]+$/i)[0];
-  fs.writeFileSync(__dirname + `/../data/images/${comicNum}${extension}`, imageBuffer, {
-    encoding: "base64",
-  });
-}
 
 export const scrape = async (): Promise<void> => {
   try {
@@ -41,7 +36,8 @@ export const scrape = async (): Promise<void> => {
         const comic = await api.getSpecificComic(num);
         comics[num] = comic;
         const imageBuffer = await api.getImageBuffer(comic.img);
-        writeImage(imageBuffer, comic.img, num);
+        const data = await sharp(imageBuffer).resize(280).webp({quality: 80}).toFile(__dirname + "/../../website/static/assets/images");
+        console.log(data.toString());
         writeJSON(comics);
       }
     }

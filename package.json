@@ -4,7 +4,7 @@
   "description": "A kickass xkcd reader!",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts && tsc ./site/static/assets/js.ts"
+    "start": "ts-node index.ts"
   },
   "dependencies": {
     "axios": "^0.21.0",

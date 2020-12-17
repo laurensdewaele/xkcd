@@ -14,7 +14,7 @@ const generateHTML = (images: string): string => {
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link href="./assets/styles.css" rel="stylesheet" />
-        <script src="./assets/js.js" rel="script" />
+        <script src="./assets/js.js" rel="script"></script>
         <title>xkcd reader</title>
     </head>
     <body>
@@ -27,13 +27,13 @@ const generateHTML = (images: string): string => {
 const generateImages = (): string => {
   const comics = readJSON();
   let str = "";
-  for (const no in comics) {
+  Object.values(comics).sort((a, b) => b.no - a.no).forEach((comic) => {
     str += `<div 
-                id="${no}" 
+                id="${comic.no}" 
                 class="placeholder" 
-                style="width: 280px; height: ${comics[no].imgHeight}px">
+                style="width: 280px; height: ${comic.imgHeight}px">
             </div>`;
-  }
+  })
   return str;
 };
 

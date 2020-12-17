@@ -1,39 +1,48 @@
-var start = function () {
-  var elements = {};
-  for (var i = 1; i <= 600; i++) {
+const onload = () => {
+  const latestComicNo = parseInt(
+    document
+      .getElementsByTagName("body")[0]
+      .firstElementChild.getAttribute("id")
+  );
+
+  const elements = {};
+  for (let i = 1; i <= latestComicNo; i++) {
     if (i !== 404) {
       elements[i] = document.getElementById(i.toString());
     }
   }
-  var isInViewport = function (_a, windowHeight) {
-    var top = _a.top,
-      bottom = _a.bottom;
+
+  const windowHeight =
+    window.innerHeight || document.documentElement.clientHeight;
+
+  const isInViewport = ({ top, bottom }, windowHeight) => {
     return (
       (bottom >= 0 && bottom <= windowHeight) ||
       (top >= 0 && top <= windowHeight) ||
       (top < 0 && bottom > windowHeight)
     );
   };
-  var windowHeight =
-    window.innerHeight || document.documentElement.clientHeight;
-  var handler = function () {
-    for (var no in elements) {
-      var el = elements[no];
-      var rect = el.getBoundingClientRect();
-      if (isInViewport(rect, windowHeight)) {
-        if (el.childElementCount === 0) {
-          console.log("fetching no", no);
-          var img = document.createElement("img");
-          img.src = "./assets/images/" + no + ".webp";
-          el.appendChild(img);
-        }
+
+  const handler = () => {
+    for (let no in elements) {
+      const rect = elements[no].getBoundingClientRect();
+      if (
+        isInViewport(rect, windowHeight) &&
+        elements[no].childElementCount === 0
+      ) {
+        console.log("fetching no", no);
+        const img = document.createElement("img");
+        img.src = `./assets/images/${no}.webp`;
+        elements[no].appendChild(img);
       }
     }
   };
+
   if (window.addEventListener) {
     addEventListener("DOMContentLoaded", handler, false);
     addEventListener("load", handler, false);
     addEventListener("scroll", handler, false);
   }
 };
-window.onload = start;
+
+window.onload = onload;

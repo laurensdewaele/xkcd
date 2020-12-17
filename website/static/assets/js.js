@@ -7,18 +7,19 @@ const start = () => {
         }
     }
 
-    const isInViewport = (el) => {
-        const rect = el.getBoundingClientRect();
+    const isInViewport = ({top, bottom}, windowHeight) => {
         return (
-            (rect.bottom >= 0 && rect.bottom <= window.innerHeight) || (rect.top >= 0 && rect.top <= window.innerHeight)
+            (bottom >= 0 && bottom <= windowHeight) || (top >= 0 && top <= windowHeight) || (top < 0 && bottom > windowHeight)
         );
     }
+
+    const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
 
     const handler = () => {
         for (let no in elements) {
             const el = elements[no];
-            if (isInViewport(el)) {
-
+            const rect = el.getBoundingClientRect();
+            if (isInViewport(rect, windowHeight)) {
                 if (el.childElementCount === 0) {
                     console.log('fetching no', no);
                     const img = document.createElement("img");

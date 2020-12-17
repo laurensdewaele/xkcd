@@ -7,5 +7,8 @@ body {
 
 .placeholder {
   margin-top: 1rem;
-  background-color: cadetblue;
+  border: 1px solid #333333;
+  background-image: url('./spinner.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }

@@ -2,19 +2,8 @@ import * as fs from "fs";
 import * as sharp from "sharp";
 
 import { api } from "./api";
-import { Comic, Comics } from "../../shared/comic";
-
-const COMICS_JSON_PATH = __dirname + "/../../shared/comics.json";
-
-
-
-const readJSON = (): Comics => {
-  return JSON.parse(
-    fs.readFileSync(COMICS_JSON_PATH, {
-      encoding: "utf8",
-    })
-  );
-};
+import { Comic, Comics } from "../shared/comic";
+import { COMICS_JSON_PATH, readJSON } from "../shared/functions";
 
 const writeJSON = (comics: Comics): void => {
   fs.writeFileSync(COMICS_JSON_PATH, JSON.stringify(comics), {
@@ -34,9 +23,7 @@ export const scrape = async (): Promise<void> => {
         const imgData = await sharp(imageBuffer)
           .resize(280)
           .webp({ quality: 80 })
-          .toFile(
-            __dirname + `/../../website/static/assets/images/${num}.webp`
-          );
+          .toFile(__dirname + `/../site/static/assets/images/${num}.webp`);
         comics[num] = Comic.fromDTO(comic, `${num}.webp`, 280, imgData.height);
         writeJSON(comics);
       }

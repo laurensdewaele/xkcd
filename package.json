@@ -1,0 +1,33 @@
+{
+  "name": "xkcd-reader",
+  "version": "1.0.0",
+  "description": "A kickass xkcd reader!",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "sharp": "^0.26.3"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.13",
+    "@types/sharp": "^0.26.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laurensdewaele/xkcd.git"
+  },
+  "keywords": [
+    "xkcd",
+    "embark studios"
+  ],
+  "author": "Laurens Dewaele",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/laurensdewaele/xkcd/issues"
+  },
+  "homepage": "https://github.com/laurensdewaele/xkcd#readme"
+}

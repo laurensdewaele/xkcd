@@ -2,18 +2,17 @@ import axios from "axios";
 
 import { ComicDTO } from "./dto";
 
-const URLS = {
-  latestComic: "http://xkcd.com/info.0.json",
-  specificComic: (no: number): string => `http://xkcd.com/${no}/info.0.json`,
-};
-
 const getLatestComic = async (): Promise<ComicDTO> => {
-  const { data: comic } = await axios.get<ComicDTO>(URLS.latestComic);
+  const { data: comic } = await axios.get<ComicDTO>(
+    "http://xkcd.com/info.0.json"
+  );
   return comic;
 };
 
 const getSpecificComic = async (no: number): Promise<ComicDTO> => {
-  const { data: comic } = await axios.get<ComicDTO>(URLS.specificComic(no));
+  const { data: comic } = await axios.get<ComicDTO>(
+    `http://xkcd.com/${no}/info.0.json`
+  );
   return comic;
 };
 

@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as sharp from "sharp";
 
 import { api } from "./api";
 import { Comic } from "./dto";
@@ -23,12 +24,15 @@ const writeJSON = (comics: Comics): void => {
   });
 };
 
-const writeImage = (imageBuffer: Buffer, imgUrl: string, comicNum: number): void => {
-  const extension = imgUrl.match(/\.[0-9a-z]+$/i)[0];
-  fs.writeFileSync(__dirname + `/../data/images/${comicNum}${extension}`, imageBuffer, {
-    encoding: "base64",
-  });
-}
+const createThumbnail = async (
+  imageBuffer: Buffer,
+  comicNo: number
+): Promise<void> => {
+  await sharp(imageBuffer)
+    .resize(280)
+    .webp({ quality: 80 })
+    .toFile(__dirname + `/../data/images/${comicNo}_thumb.webp`);
+};
 
 export const scrape = async (): Promise<void> => {
   try {
@@ -37,11 +41,11 @@ export const scrape = async (): Promise<void> => {
     comics[latestComic.num] = latestComic;
     for (let num = 1; num < latestComic.num; num++) {
       if (!(num in comics || num == 404)) {
-        console.log(`fetching comic no: ${num}`);
+        console.log(`fetching and optimizing for comic no: ${num}`);
         const comic = await api.getSpecificComic(num);
         comics[num] = comic;
         const imageBuffer = await api.getImageBuffer(comic.img);
-        writeImage(imageBuffer, comic.img, num);
+        await createThumbnail(imageBuffer, num);
         writeJSON(comics);
       }
     }

@@ -1,7 +1,7 @@
 import * as fs from "fs";
-import {readJSON} from "../shared/functions";
+import { readJSON } from "../shared/functions";
 
-const injectImages = (images: string): string => {
+const generateHTML = (images: string): string => {
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -28,12 +28,16 @@ const generateImages = (): string => {
   const comics = readJSON();
   let str = "";
   for (const no in comics) {
-    str += `<div id="${no}" class="placeholder" style="width: 280px; height: ${comic.imgHeight}px"></div>`;
+    str += `<div 
+                id="${no}" 
+                class="placeholder" 
+                style="width: 280px; height: ${comics[no].imgHeight}px">
+            </div>`;
   }
   return str;
 };
 
-export const generateStaticSite = (): void => {
-  const html = injectImages(generateImages());
+export const generate = (): void => {
+  const html = generateHTML(generateImages());
   fs.writeFileSync(__dirname + "/static/index.html", html);
 };

@@ -1,7 +1,7 @@
-import { ComicDTO } from "../scraper/src/dto";
+import { ComicDTO } from "../scraper/dto";
 
 export interface Comics {
-    [num: number]: Comic;
+  [num: number]: Comic;
 }
 
 export class Comic {

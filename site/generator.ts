@@ -18,7 +18,11 @@ const generateHTML = (images: string): string => {
         <title>xkcd reader</title>
     </head>
     <body>
-      ${images}
+        <main>
+            ${images}  
+        </main>
+        <label for="slider">scroll slider</label>
+        <input id="slider" type="range" step="1" min="1" max="650" />
     </body>
     </html>
     `;

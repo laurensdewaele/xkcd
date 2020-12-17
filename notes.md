@@ -19,6 +19,7 @@ Requirements:
 - Master / detail view?
 - Show thumnails
 
+
   - What are thumbnails?
 
     - It's responsible for the first impression of web content.

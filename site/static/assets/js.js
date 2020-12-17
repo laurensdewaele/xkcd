@@ -1,9 +1,17 @@
 const onload = () => {
   const latestComicNo = parseInt(
     document
-      .getElementsByTagName("body")[0]
+      .getElementsByTagName("main")[0]
       .firstElementChild.getAttribute("id")
   );
+
+  const slider = document.getElementById("slider");
+  slider.setAttribute("max", latestComicNo);
+  slider.setAttribute("value", latestComicNo);
+
+  slider.oninput = (e) => {
+    document.getElementById(e.currentTarget.value).scrollIntoView();
+  }
 
   const elements = {};
   for (let i = 1; i <= latestComicNo; i++) {
@@ -30,7 +38,7 @@ const onload = () => {
         isInViewport(rect, windowHeight) &&
         elements[no].childElementCount === 0
       ) {
-        console.log("fetching no", no);
+        slider.setAttribute("value", no);
         const img = document.createElement("img");
         img.src = `./assets/images/${no}.webp`;
         elements[no].appendChild(img);

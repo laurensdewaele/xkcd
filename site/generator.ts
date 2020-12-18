@@ -21,17 +21,17 @@ const generateHTML = (images: string): string => {
         <main>
             ${images}  
         </main>
-        <div class="slider-container">
+        <nav>
             <label for="slider">scroll slider</label>
             <input id="slider" type="range" step="1" min="1" max="650" orient="vertical" />
             <div class="slider-values-container">
                 <p>613</p>
                 <p>1</p>
             </div>
-            <div class="carot-container">
+            <a class="caret-container" href="javascript:void(0)" onclick="toggleNav()">
                 <p><</p>
-            </div>
-        </div>
+            </a>
+        </nav>
     </body>
     </html>
     `;

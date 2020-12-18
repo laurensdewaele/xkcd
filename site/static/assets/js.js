@@ -1,3 +1,20 @@
+let nav;
+let caret;
+let isNavOpen = true;
+const caretContainerWidth = 2 * 16;
+
+const toggleNav = () => {
+  const { width } = nav.getBoundingClientRect();
+  if (isNavOpen) {
+    nav.style.left = `${- width + caretContainerWidth}px`;
+    caret.innerHTML = '>';
+  } else {
+    nav.style.left = `-1px`;
+    caret.innerHTML = '<';
+  }
+  isNavOpen = !isNavOpen;
+}
+
 const isInViewport = ({ top, bottom }, windowHeight) => {
   return (
       (bottom >= 0 && bottom <= windowHeight) ||
@@ -7,6 +24,9 @@ const isInViewport = ({ top, bottom }, windowHeight) => {
 };
 
 const onload = () => {
+  nav = document.getElementsByTagName("nav")[0];
+  caret = document.getElementById("caret");
+
   const latestComicNo = parseInt(
     document
       .getElementsByTagName("main")[0]
@@ -26,8 +46,6 @@ const onload = () => {
   slider.oninput = (e) => {
     elements[e.currentTarget.value].scrollIntoView();
   }
-
-
 
   const windowHeight =
     window.innerHeight || document.documentElement.clientHeight;

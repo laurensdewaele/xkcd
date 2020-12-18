@@ -29,7 +29,7 @@ const generateHTML = (images: string): string => {
                 <p>1</p>
             </div>
             <a class="caret-container" href="javascript:void(0)" onclick="toggleNav()">
-                <p><</p>
+                <p id="caret"><</p>
             </a>
         </nav>
     </body>

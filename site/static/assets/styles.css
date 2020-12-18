@@ -27,6 +27,9 @@ nav {
   left: -1px;
   display: flex;
   padding: 2rem 0 2rem 1rem;
+  transition: .2s;
+  transition-timing-function: ease-in-out;
+  drop-shadow(0 0 .5rem var(--black));
 }
 
 label {
@@ -38,6 +41,25 @@ label {
   height: 100%;
   writing-mode: bt-lr;
   -webkit-appearance: slider-vertical;
+  outline: none;
+}
+
+#slider:focus {
+  outline: none;
+}
+
+#slider::-moz-range-track {
+  background: var(--black);
+  width: 5px;
+}
+
+#slider::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background: white;
+  border: 1px solid var(--black);
+  border-radius: 50%;
+  drop-shadow(0 0 .5rem var(--black));
 }
 
 .slider-values-container {
@@ -45,6 +67,11 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black);
 }
 
 .caret-container {

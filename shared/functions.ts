@@ -2,7 +2,8 @@ import * as fs from "fs";
 
 import { Comics } from "./models";
 
-export const COMICS_JSON_PATH = __dirname + "/../shared/comics.json";
+export const COMICS_JSON_PATH =
+  __dirname + "/../site/static/assets/comics.json";
 
 export const readJSON = (): Comics => {
   return JSON.parse(

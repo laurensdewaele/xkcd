@@ -2,7 +2,7 @@
   font-family: "xkcd";
   font-weight: normal;
   font-style: normal;
-  src: url("./typography/xkcd-webfont.woff2") format("woff2");
+  src: url("../typography/xkcd-webfont.woff2") format("woff2");
 }
 
 :root {
@@ -54,7 +54,7 @@ h3 {
 
 .placeholder {
   border: 1px solid var(--black);
-  background-image: url("./spinner.svg");
+  background-image: url("../spinner.svg");
   background-repeat: no-repeat;
   background-position: center;
 }

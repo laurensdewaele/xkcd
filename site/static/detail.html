@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Laurens Dewaele" />
+    <meta name="description" content="xkcd reader" />
+    <meta name="keywords" content="xkcd, embark studios" />
+    <meta name="color-scheme" content="normal" />
+    <meta name="robots" content="index,follow" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="assets/css/detail.css" rel="stylesheet" />
+    <script src="assets/js/detail.js" rel="script"></script>
+    <title>xkcd reader</title>
+  </head>
+  <body>
+    <img id="img" src="./assets/spinner.svg" />
+    <section id="info">
+      <a
+        class="caret-container"
+        href="javascript:void(0)"
+        onclick="toggleInfo()"
+      >
+        <div id="caret"><p>></p></div>
+      </a>
+      <div>
+        <h2>num:&nbsp;&nbsp;</h2>
+        <p id="no"></p>
+      </div>
+      <div>
+        <h2>date:&nbsp;&nbsp;</h2>
+        <p id="date"></p>
+      </div>
+      <div>
+        <h2>title:&nbsp;&nbsp;</h2>
+        <p id="title"></p>
+      </div>
+      <div>
+        <h2>safe_title:&nbsp;&nbsp;</h2>
+        <p id="safe-title"></p>
+      </div>
+      <div>
+        <h2>news:&nbsp;&nbsp;</h2>
+        <p id="news"></p>
+      </div>
+      <div>
+        <h2>link:&nbsp;&nbsp;</h2>
+        <p id="link"></p>
+      </div>
+      <div>
+        <h2>alt:&nbsp;&nbsp;</h2>
+        <p id="alt"></p>
+      </div>
+      <div>
+        <h2>transcript:&nbsp;&nbsp;</h2>
+        <p id="transcript"></p>
+      </div>
+    </section>
+  </body>
+</html>

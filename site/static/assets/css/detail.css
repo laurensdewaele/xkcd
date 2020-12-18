@@ -1,0 +1,75 @@
+@font-face {
+  font-family: "xkcd";
+  font-weight: normal;
+  font-style: normal;
+  src: url("../typography/xkcd-webfont.woff2") format("woff2");
+}
+
+:root {
+  --black: #333333;
+  --shadow: rgba(0, 0, 0, 0.25);
+  --drop-shadow: drop-shadow(0 0 0.2rem var(--shadow));
+}
+
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+p,
+h2 {
+  margin: 0;
+  font-family: "xkcd", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+#info {
+  max-height: 95vh;
+  overflow: auto;
+  visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  padding: 0 1rem 1rem 1rem;
+  border: 1px solid var(--black);
+  filter: var(--drop-shadow);
+  border-radius: 5px 5px 0 0;
+  max-width: 600px;
+  position: fixed;
+  bottom: -1px;
+}
+
+section > div {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+h2 {
+  font-size: 1.1rem;
+  vertical-align: bottom;
+}
+
+p {
+  display: flex;
+  font-size: 0.9rem;
+}
+
+#caret {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 100%;
+}
+
+#caret > p {
+  transform: rotate(90deg);
+}

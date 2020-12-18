@@ -1,6 +1,26 @@
 const comicNo = parseInt(window.location.search.substring(1));
 
+let info;
+let caret;
+let isInfoOpen = true;
+const caretContainerHeight = 2 * 16;
+
+const toggleInfo = () => {
+  const { height } = info.getBoundingClientRect();
+  if (isInfoOpen) {
+    info.style.bottom = `${-height + caretContainerHeight}px`;
+    caret.style.transform = `rotate(180deg)`;
+  } else {
+    info.style.bottom = `-1px`;
+    caret.style.transform = `rotate(360deg)`;
+  }
+  isInfoOpen = !isInfoOpen;
+};
+
 const load = () => {
+  info = document.getElementById("info");
+  caret = document.getElementById("caret");
+
   const dateEl = document.getElementById("date");
   const noEl = document.getElementById("no");
   const titleEl = document.getElementById("title");
@@ -11,7 +31,7 @@ const load = () => {
   const linkEl = document.getElementById("link");
 
   const body = document.getElementsByTagName("body")[0];
-  const img = document.createElement("img");
+  const img = document.getElementById("img");
 
   fetch(`./assets/comics.json`)
     .then((response) => response.json())
@@ -40,6 +60,8 @@ const load = () => {
       transcriptEl.innerText = transcript === "" ? `null` : transcript;
       newsEl.innerText = news === "" ? `null` : news;
       linkEl.innerText = link === "" ? `null` : link;
+      toggleInfo();
+      info.style.visibility = "visible";
     });
 };
 

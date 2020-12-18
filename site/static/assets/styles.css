@@ -1,7 +1,26 @@
+@font-face {
+  font-family: "xkcd";
+  font-weight: normal;
+  font-style: normal;
+  src: url("./typography/xkcd-webfont.woff2") format("woff2");
+}
+
 :root {
   --black: #333333;
   --shadow: rgba(0, 0, 0, 0.25);
   --drop-shadow: drop-shadow(0 0 0.2rem var(--shadow));
+}
+
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+p,
+h2,
+h3 {
+  margin: 0;
+  font-family: "xkcd", sans-serif;
 }
 
 main {
@@ -9,10 +28,31 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
-.p {
-  margin-top: 1rem;
+article {
+  max-width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+article:not(:first-child) {
+  margin-top: 1.5rem;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+h3 {
+  width: 100%;
+  font-size: 0.7rem;
+  text-align: end;
+}
+
+.placeholder {
   border: 1px solid var(--black);
   background-image: url("./spinner.svg");
   background-repeat: no-repeat;
@@ -70,19 +110,10 @@ label {
   justify-content: space-between;
 }
 
-a {
-  text-decoration: none;
-  color: var(--black);
-}
-
 .caret-container {
   width: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-p {
-  margin: 0;
 }

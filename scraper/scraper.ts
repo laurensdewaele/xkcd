@@ -16,7 +16,7 @@ export const scrape = async (): Promise<void> => {
     const comics = readJSON();
     const latestComic = await api.getLatestComic();
     for (let num = 1; num <= latestComic.num; num++) {
-      if (!(num in comics || num == 404)) {
+      if (!(num in comics || num == 404 || num == 1608)) {
         console.log(`fetching comic no: ${num}`);
         const comic = await api.getSpecificComic(num);
         const imageBuffer = await api.getImageBuffer(comic.img);

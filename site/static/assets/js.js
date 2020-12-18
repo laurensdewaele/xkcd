@@ -13,19 +13,21 @@ const onload = () => {
       .firstElementChild.getAttribute("id")
   );
 
-  const slider = document.getElementById("slider");
-  slider.setAttribute("max", latestComicNo.toString());
-  slider.setAttribute("value", latestComicNo.toString());
-  slider.oninput = (e) => {
-    document.getElementById(e.currentTarget.value).scrollIntoView();
-  }
-
   const elements = {};
   for (let i = 1; i <= latestComicNo; i++) {
     if (i !== 404) {
       elements[i] = document.getElementById(i.toString());
     }
   }
+
+  const slider = document.getElementById("slider");
+  slider.setAttribute("max", latestComicNo.toString());
+  slider.setAttribute("value", latestComicNo.toString());
+  slider.oninput = (e) => {
+    elements[e.currentTarget.value].scrollIntoView();
+  }
+
+
 
   const windowHeight =
     window.innerHeight || document.documentElement.clientHeight;
@@ -37,7 +39,7 @@ const onload = () => {
         isInViewport(rect, windowHeight) &&
         elements[no].childElementCount === 0
       ) {
-        slider.setAttribute("value", no);
+        slider.value = no;
         const img = document.createElement("img");
         img.src = `./assets/images/${no}.webp`;
         elements[no].appendChild(img);

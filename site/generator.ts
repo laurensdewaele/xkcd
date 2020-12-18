@@ -15,8 +15,8 @@ const generateHTML = (comics: string, latestComicNo: number): string => {
         <meta name="color-scheme" content="normal" />
         <meta name="robots" content="index,follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link href="./assets/styles.css" rel="stylesheet" />
-        <script src="./assets/js.js" rel="script"></script>
+        <link href="./assets/main.css" rel="stylesheet" />
+        <script src="./assets/main.js" rel="script"></script>
         <title>xkcd reader</title>
     </head>
     <body>
@@ -51,11 +51,13 @@ const generateComicHTML = (
   return `
   <article>
     <h2>${no}   -   ${title}</h2>
-    <div 
-      id="${no}" 
-      class="placeholder" 
-      style="width: ${imgWidth}px; height: ${imgHeight}px">
-    </div>
+    <a href="./detail.html?${no}">
+        <div 
+          id="${no}" 
+          class="placeholder" 
+          style="width: ${imgWidth}px; height: ${imgHeight}px">
+        </div>
+    </a>
     <h3>${day}/${month}/${year}</h3>
   </article>
   `;

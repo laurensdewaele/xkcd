@@ -14,7 +14,14 @@ If you need to edit the HTML, be sure to do it in the generator.ts file.
 
 ## Issues
 
-Styling the slider is not trivial in webkit.
+### Comics
+
+Comics no. 1608 and 1663 have been omitted.
+They are interactive comics.
+
+### Styling
+
+Styling the slider is non-trivial in webkit.
 This is due to conflicting css properties.
 For a vertical slider we need:
 

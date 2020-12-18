@@ -18,6 +18,7 @@ main {
 }
 
 nav {
+  background: white;
   border: 1px solid var(--black);
   border-radius: 0 5px 5px 0;
   position: fixed;
@@ -55,5 +56,5 @@ label {
 }
 
 p {
-  margin: 0
+  margin: 0;
 }

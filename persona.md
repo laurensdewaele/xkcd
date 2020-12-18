@@ -10,6 +10,7 @@ Whenever Dan does find some free me time, he loves nothing more than to read his
 Not only does the comic align with his kind of humor, it provides him with a sense of purpose and it makes him feel connected to other nerds.
 
 Personality traits:
+
 - Strong ratio.
 - Likes things simple and efficient.
 - Has the latest stuff. He even has headphones that exude light.
@@ -20,14 +21,8 @@ Personality traits:
 - The reader needs to simple, efficient and fast.
 - Needs thumbnails and detail view.
 - Needs to be maintainable.
-  
+
 ## Implementation
 
 - I image the target audience has decent hardware en up to date software. This means we can get away with using solely webp for our images, thus improving performance.
 - Stick to the basics, no frameworks. in order to keep simplicity. Also from a maintainability standpoint.
-
-
-
-
-
-

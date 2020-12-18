@@ -1,3 +1,11 @@
+const isInViewport = ({ top, bottom }, windowHeight) => {
+  return (
+      (bottom >= 0 && bottom <= windowHeight) ||
+      (top >= 0 && top <= windowHeight) ||
+      (top < 0 && bottom > windowHeight)
+  );
+};
+
 const onload = () => {
   const latestComicNo = parseInt(
     document
@@ -6,9 +14,8 @@ const onload = () => {
   );
 
   const slider = document.getElementById("slider");
-  slider.setAttribute("max", latestComicNo);
-  slider.setAttribute("value", latestComicNo);
-
+  slider.setAttribute("max", latestComicNo.toString());
+  slider.setAttribute("value", latestComicNo.toString());
   slider.oninput = (e) => {
     document.getElementById(e.currentTarget.value).scrollIntoView();
   }
@@ -22,14 +29,6 @@ const onload = () => {
 
   const windowHeight =
     window.innerHeight || document.documentElement.clientHeight;
-
-  const isInViewport = ({ top, bottom }, windowHeight) => {
-    return (
-      (bottom >= 0 && bottom <= windowHeight) ||
-      (top >= 0 && top <= windowHeight) ||
-      (top < 0 && bottom > windowHeight)
-    );
-  };
 
   const handler = () => {
     for (let no in elements) {
@@ -47,10 +46,7 @@ const onload = () => {
   };
 
   handler();
-
-  if (window.addEventListener) {
-    addEventListener("scroll", handler, false);
-  }
+  addEventListener("scroll", handler, false);
 };
 
 window.onload = onload;

@@ -13,15 +13,18 @@ Personality traits:
 - Strong ratio.
 - Likes things simple and efficient.
 - Has the latest stuff. He even has headphones that exude light.
-- Can be nostalgic from time to time.
 - Into performance and optimizations.
-- Really likes his thumbnails.
 
 ## Requirements
 
 - The reader needs to simple, efficient and fast.
 - Needs thumbnails and detail view.
-- Needs to support Dan's nostalgia. Implement functionality to quickly browse past comics.
+- Needs to be maintainable.
+  
+## Implementation
+
+- I image the target audience has decent hardware en up to date software. This means we can get away with using solely webp for our images, thus improving performance.
+- Stick to the basics, no frameworks. in order to keep simplicity. Also from a maintainability standpoint.
 
 
 

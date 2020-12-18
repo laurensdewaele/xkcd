@@ -28,7 +28,7 @@ const generateHTML = (images: string): string => {
     `;
 };
 
-const generateImages = (): string => {
+const generateContent = (): string => {
   const comics = readJSON();
   let str = "";
   Object.values(comics)
@@ -44,6 +44,6 @@ const generateImages = (): string => {
 };
 
 export const generateSite = (): void => {
-  const html = generateHTML(generateImages());
+  const html = generateHTML(generateContent());
   fs.writeFileSync(__dirname + "/static/index.html", html);
 };

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { Comics } from "./comic";
+import { Comics } from "./models";
 
 export const COMICS_JSON_PATH = __dirname + "/../shared/comics.json";
 

@@ -53,14 +53,13 @@ const onload = () => {
   const handler = () => {
     for (let no in elements) {
       const rect = elements[no].getBoundingClientRect();
-      if (
-        isInViewport(rect, windowHeight) &&
-        elements[no].childElementCount === 0
-      ) {
+      if (isInViewport(rect, windowHeight)) {
         slider.value = no;
-        const img = document.createElement("img");
-        img.src = `./assets/images/${no}.webp`;
-        elements[no].appendChild(img);
+        if (elements[no].childElementCount === 0) {
+          const img = document.createElement("img");
+          img.src = `./assets/images/${no}.webp`;
+          elements[no].appendChild(img);
+        }
       }
     }
   };

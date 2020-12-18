@@ -18,13 +18,26 @@ const generateHTML = (images: string): string => {
         <title>xkcd reader</title>
     </head>
     <body>
-      ${images}
+        <main>
+            ${images}  
+        </main>
+        <nav>
+            <label for="slider">scroll slider</label>
+            <input id="slider" type="range" step="1" min="1" max="650" orient="vertical" />
+            <div class="slider-values-container">
+                <p>613</p>
+                <p>1</p>
+            </div>
+            <a class="caret-container" href="javascript:void(0)" onclick="toggleNav()">
+                <p id="caret"><</p>
+            </a>
+        </nav>
     </body>
     </html>
     `;
 };
 
-const generateImages = (): string => {
+const generateContent = (): string => {
   const comics = readJSON();
   let str = "";
   Object.values(comics)
@@ -32,14 +45,14 @@ const generateImages = (): string => {
     .forEach((comic) => {
       str += `<div 
                 id="${comic.no}" 
-                class="placeholder" 
-                style="width: 280px; height: ${comic.imgHeight}px">
+                class="p" 
+                style="width: ${comic.imgWidth}px; height: ${comic.imgHeight}px">
             </div>`;
     });
   return str;
 };
 
 export const generateSite = (): void => {
-  const html = generateHTML(generateImages());
+  const html = generateHTML(generateContent());
   fs.writeFileSync(__dirname + "/static/index.html", html);
 };

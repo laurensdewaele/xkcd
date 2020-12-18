@@ -1,14 +1,88 @@
-body {
+:root {
+  --black: #333333;
+  --shadow: rgba(0, 0, 0, 0.25);
+  --drop-shadow: drop-shadow(0 0 0.2rem var(--shadow));
+}
+
+main {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.placeholder {
+.p {
   margin-top: 1rem;
-  border: 1px solid #333333;
+  border: 1px solid var(--black);
   background-image: url("./spinner.svg");
   background-repeat: no-repeat;
   background-position: center;
+}
+
+nav {
+  background: white;
+  border: 1px solid var(--black);
+  border-radius: 0 5px 5px 0;
+  position: fixed;
+  height: 50vh;
+  top: 25vh;
+  left: -1px;
+  display: flex;
+  padding: 2rem 0 2rem 1rem;
+  transition: 0.2s;
+  transition-timing-function: ease-in-out;
+  filter: var(--drop-shadow);
+}
+
+label {
+  display: none;
+}
+
+#slider {
+  width: 2rem;
+  height: 100%;
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
+  outline: none;
+}
+
+#slider:focus {
+  outline: none;
+}
+
+#slider::-moz-range-track {
+  background: var(--black);
+  width: 5px;
+}
+
+#slider::-moz-range-thumb {
+  height: 15px;
+  width: 15px;
+  background: white;
+  border: 1px solid var(--black);
+  border-radius: 50%;
+}
+
+.slider-values-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.caret-container {
+  width: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  margin: 0;
 }

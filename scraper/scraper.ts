@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as sharp from "sharp";
 
 import { api } from "./api";
-import { Comic, Comics } from "../shared/comic";
+import { Comic, Comics } from "../shared/models";
 import { COMICS_JSON_PATH, readJSON } from "../shared/functions";
 
 const writeJSON = (comics: Comics): void => {

@@ -1,7 +1,9 @@
 import * as fs from "fs";
+
+import { Comics } from "../shared/models";
 import { readJSON } from "../shared/functions";
 
-const generateHTML = (images: string): string => {
+const generateHTML = (comics: string, latestComicNo: number): string => {
   return `
     <!DOCTYPE html>
     <html lang="en">
@@ -19,13 +21,13 @@ const generateHTML = (images: string): string => {
     </head>
     <body>
         <main>
-            ${images}  
+            ${comics}  
         </main>
         <nav>
             <label for="slider">scroll slider</label>
-            <input id="slider" type="range" step="1" min="1" max="650" orient="vertical" />
+            <input id="slider" type="range" step="1" min="1" max="${latestComicNo}" orient="vertical" />
             <div class="slider-values-container">
-                <p>613</p>
+                <p>${latestComicNo}</p>
                 <p>1</p>
             </div>
             <a class="caret-container" href="javascript:void(0)" onclick="toggleNav()">
@@ -37,22 +39,47 @@ const generateHTML = (images: string): string => {
     `;
 };
 
-const generateContent = (): string => {
-  const comics = readJSON();
-  let str = "";
-  Object.values(comics)
-    .sort((a, b) => b.no - a.no)
-    .forEach((comic) => {
-      str += `<div 
-                id="${comic.no}" 
-                class="p" 
-                style="width: ${comic.imgWidth}px; height: ${comic.imgHeight}px">
-            </div>`;
-    });
-  return str;
+const generateComicHTML = (
+  day: number,
+  month: number,
+  year: number,
+  no: number,
+  title: string,
+  imgWidth: number,
+  imgHeight: number
+) => {
+  return `
+  <article>
+    <h2>${no}   -   ${title}</h2>
+    <div 
+      id="${no}" 
+      class="placeholder" 
+      style="width: ${imgWidth}px; height: ${imgHeight}px">
+    </div>
+    <h3>${day}/${month}/${year}</h3>
+  </article>
+  `;
 };
 
 export const generateSite = (): void => {
-  const html = generateHTML(generateContent());
+  const comics: Comics = readJSON();
+  const descendingComics = Object.values(comics).sort((a, b) => b.no - a.no);
+
+  let comicsHTML = "";
+  descendingComics.forEach(
+    ({ day, month, year, no, title, imgWidth, imgHeight }) => {
+      comicsHTML += generateComicHTML(
+        day,
+        month,
+        year,
+        no,
+        title,
+        imgWidth,
+        imgHeight
+      );
+    }
+  );
+
+  const html = generateHTML(comicsHTML, descendingComics[0].no);
   fs.writeFileSync(__dirname + "/static/index.html", html);
 };

@@ -28,9 +28,7 @@ const onload = () => {
   caret = document.getElementById("caret");
 
   const latestComicNo = parseInt(
-    document
-      .getElementsByTagName("main")[0]
-      .firstElementChild.getAttribute("id")
+    document.getElementsByClassName("placeholder")[0].getAttribute("id")
   );
 
   const elements = {};

@@ -36,8 +36,8 @@ const generateContent = (): string => {
     .forEach((comic) => {
       str += `<div 
                 id="${comic.no}" 
-                class="placeholder" 
-                style="width: 280px; height: ${comic.imgHeight}px">
+                class="p" 
+                style="width: ${comic.imgWidth}px; height: ${comic.imgHeight}px">
             </div>`;
     });
   return str;

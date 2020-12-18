@@ -5,7 +5,7 @@ main {
   align-items: center;
 }
 
-.placeholder {
+.p {
   margin-top: 1rem;
   border: 1px solid #333333;
   background-image: url("./spinner.svg");

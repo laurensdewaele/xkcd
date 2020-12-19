@@ -12,7 +12,7 @@ How it works:
 4. For the detail page, we pass along the comicNo on the queryparams like so: `/detail.html?21`. `detail.js` parses it, and retrieves the comic in the `comics.json` file and fetches the original, non-resized image.
 5. For deployment there's a [Github actions](https://github.com/features/actions) cron job, that runs a Netlify hook and redeploys every 4 hours to accommodate new comics.
 
-Keep in mind that, in order to update the index.html, once needs to do it in the `generator.ts` file!
+Keep in mind that, in order to update the ``index.html``, once needs to do it in the `generator.ts` file!
 
 ### Issues
 
@@ -49,7 +49,7 @@ For now, we've styled it for Firefox and left the default webkit styling for wha
 ##### Detail view image
 
 ```css
-display: flex
+display: flex;
 justify-content: center;
 align-items: center;
 ```

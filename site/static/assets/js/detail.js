@@ -30,8 +30,8 @@ const load = () => {
   const newsEl = document.getElementById("news");
   const linkEl = document.getElementById("link");
 
-  const body = document.getElementsByTagName("body")[0];
   const img = document.getElementById("img");
+  const imgAnchor = document.getElementById("img-anchor");
 
   fetch(`./assets/comics.json`)
     .then((response) => response.json())
@@ -49,9 +49,9 @@ const load = () => {
         transcript,
         alt,
       } = comics[comicNo];
+      imgAnchor.href = originalImg;
       img.src = originalImg;
       img.alt = alt;
-      body.appendChild(img);
       dateEl.innerText = `${day}/${month}/${year}`;
       noEl.innerText = no.toString();
       titleEl.innerText = title === "" ? `null` : title;

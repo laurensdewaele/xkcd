@@ -33,7 +33,7 @@ const onload = () => {
 
   const elements = {};
   for (let i = 1; i <= latestComicNo; i++) {
-    if (i !== 404) {
+    if (!(i == 404 || i == 1608 || i == 1663)) {
       elements[i] = document.getElementById(i.toString());
     }
   }

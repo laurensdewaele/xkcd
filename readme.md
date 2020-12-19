@@ -1,5 +1,7 @@
 # xkcd reader
 
+## [https://xkcd-reader.netlify.app/](https://xkcd-reader.netlify.app/)
+
 An [xkcd](https://xkcd.com/) reader, built as an interview assignment for [Embark Studios](https://www.embark-studios.com/).
 
 How it works:
@@ -12,18 +14,18 @@ How it works:
 
 Keep in mind that, in order to update the index.html, once needs to do it in the `generator.ts` file!
 
-## Issues
+### Issues
 
-### Comics
+#### Comics
 
 Comic no. 404 is an obvious, but quite hilarious prank.
 
 Comics no. [1608](https://xkcd.com/1608/) and [1663](https://xkcd.com/1663/) have been omitted.
 They are interactive comics.
 
-### Styling
+#### Styling
 
-#### Slider
+##### Slider
 
 Styling the slider is non-trivial in webkit.
 This is due to conflicting css properties.
@@ -44,7 +46,7 @@ See https://css-tricks.com/custom-interactive-range-inputs.
 
 For now, we've styled it for Firefox and left the default webkit styling for what it is.
 
-#### Detail view image
+##### Detail view image
 
 ```css
 display: flex
@@ -65,7 +67,7 @@ body {
 
 lol.
 
-#### Bottom menu on detail view
+##### Bottom menu on detail view
 
 On mobile we often find ourselves zooming the image, this causes the viewport to change, and therefore our bottom menu with
 

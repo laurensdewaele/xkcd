@@ -23,16 +23,32 @@ h2 {
 }
 
 body {
-  height: 100vh;
-  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  margin-top: 1rem;
+}
+
+#info-container {
+  width: 100%;
   justify-content: center;
   align-items: center;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  position: fixed;
+  bottom: 0;
+  overflow: hidden;
 }
 
 #info {
+  text-align: start;
+  margin: auto;
   max-height: 95vh;
+  width: 30rem;
+  max-width: 85vw;
   overflow: auto;
   visibility: hidden;
   display: flex;
@@ -42,14 +58,17 @@ body {
   border: 1px solid var(--black);
   filter: var(--drop-shadow);
   border-radius: 5px 5px 0 0;
-  max-width: 600px;
-  position: fixed;
+  position: relative;
   bottom: -1px;
 }
 
-section > div {
+.inline {
   display: flex;
   flex-wrap: nowrap;
+}
+
+.column > p {
+  margin-left: 1rem;
 }
 
 h2 {

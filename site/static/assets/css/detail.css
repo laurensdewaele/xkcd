@@ -64,12 +64,7 @@ img {
   bottom: -1px;
 }
 
-.inline {
-  display: flex;
-  flex-wrap: nowrap;
-}
-
-.column > p {
+.row > p {
   margin-left: 1rem;
 }
 
